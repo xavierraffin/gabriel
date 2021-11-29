@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta charset="UTF-8">
+   <title>Jeu devine nombre</title>
+   <script>
+       let nombreMystere;
+       let coups;
+       let gameInprogress = false;
+       function effaceMessage() {
+         document.getElementById("afficheMessage").innerHTML = ``;
+         document.getElementById("nombreJoueur").value = ``;
+       }
+       function commencerJeu() {
+         coups = 0;
+         gameInprogress = true;
+         nombreMystere = Math.floor(Math.random() * 100) + 1; // X est entre 1 et 100
+         console.log(nombreMystere);
+         document.getElementById("questionJoueur").style.display = "block";
+         document.getElementById("commenceJeu").style.display = "none";
+        document.getElementById("dancingCat").style.display = "none";
+         document.getElementById("nombreJoueur").addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            entreNombre();
+            document.getElementById("nombreJoueur").value = ``;
+        }
+        });
+         effaceMessage();
+         //document.getElementById("afficheMessage").innerHTML = nombreMystere;
+       }
+       function entreNombre() {
+           if(!gameInprogress)return;
+           coups = coups+1;
+        let nombreReponse = document.getElementById("nombreJoueur").value;
+        if (nombreReponse == nombreMystere) {
+            gameInprogress = false;
+            document.getElementById("questionJoueur").style.display = "none";
+            document.getElementById("afficheMessage").innerHTML = `Le nombre est bien ${nombreReponse}, vous avez gagné en ${coups} coups`;
+            document.getElementById("commenceJeu").style.display = "block";
+            document.getElementById("dancingCat").style.display = "block";
+            playAudio();
+            
+        } else {
+            if (nombreReponse < nombreMystere) {
+            document.getElementById("afficheMessage").innerHTML = `${nombreReponse} est trop petit!`;
+            }else{
+            document.getElementById("afficheMessage").innerHTML = `${nombreReponse} est trop grand!`;
+            }
+        }
+       }
+   </script>
+</head>
+<body>
+<h1>Bienvenue dans le jeu devine nombre</h1>
+
+<audio id="myAudio">
+<source src="party.mp3" type="audio/mpeg">
+</audio>
+
+<button id="commenceJeu" onclick="commencerJeu()">Commencer une partie</button>
+
+<div id="questionJoueur" style="display: none">
+    Entre un nombre entre 1 et 100:
+    <input id="nombreJoueur" onfocusin="effaceMessage()" type="text"></input>
+    <button id="submitNbr" onclick="entreNombre()">entrer</button>
+</div>
+
+<div id="afficheMessage"></div>
+
+<img id="dancingCat" style="display: none" src="https://media4.giphy.com/media/mAvDXGbRUEtG0/giphy.gif?cid=790b76112bb1ea8638d13f4e58a6ae54798f9137a3da6280&rid=giphy.gif&ct=g"/>
+
+<br><br><br>
+Gabriel game ;-)
+
+<script>
+var x = document.getElementById("myAudio"); 
+
+function playAudio() { 
+  x.play(); 
+} 
+
+function pauseAudio() { 
+  x.pause(); 
+} 
+</script>
+
+</body>
+</html>
